@@ -2,6 +2,7 @@
 
 #include "World.h"
 #include "Boid.h"
+#include "Random.hpp"
 
 class Simulation
 {

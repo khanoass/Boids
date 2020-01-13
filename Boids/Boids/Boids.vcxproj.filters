@@ -4,7 +4,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="World.cpp" />
-    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Boid.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -12,5 +11,6 @@
     <ClInclude Include="World.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Boid.h" />
+    <ClInclude Include="Random.hpp" />
   </ItemGroup>
 </Project>

@@ -32,6 +32,20 @@ void Simulation::run()
 
 void Simulation::init()
 {
+	for (size_t i = 0; i < 30; i++)
+	{
+		std::shared_ptr<Boid> boid = std::make_shared<Boid>();
+
+		boid->setGeometry(15, 30);
+		boid->setRotation(Random::nextFloat(0, 360));
+		boid->setSpeed(1);
+		boid->setPosition({ 600, 400 });
+		boid->setVisionRadius(80);
+		boid->showVisionRepresentation(true);
+
+		_world.addEntity(boid);
+	}
+
 	_world.init();
 }
 

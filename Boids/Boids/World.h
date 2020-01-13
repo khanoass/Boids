@@ -7,7 +7,7 @@ class World : public sf::Drawable
 public:
 	World();
 
-	void addEntity(const Entity& entity);
+	void addEntity(const std::shared_ptr<Entity>& entity);
 
 	void init();
 	void update();
@@ -15,5 +15,5 @@ public:
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	std::vector<Entity> _entities;
+	std::vector<std::shared_ptr<Entity>> _entities;
 };

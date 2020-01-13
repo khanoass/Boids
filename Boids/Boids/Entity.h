@@ -5,11 +5,6 @@
 class Entity : public sf::Drawable
 {
 public:
-	Entity();
-
-	void init();
-	void update();
-
-private:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void init() = 0;
+	virtual void update() = 0;
 };
