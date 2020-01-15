@@ -1,7 +1,7 @@
 ﻿  Simulation.cpp
-  Génération de code en cours
-  4 of 496 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Fin de la génération du code
-  Boids.vcxproj -> C:\Users\raffelix\Desktop\Boids\Boids\x64\Release\Boids.exe
+  Generating code
+  5 of 431 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Boids.vcxproj -> B:\Files\Programming\Projects\Boids\Boids\x64\Release\Boids.exe

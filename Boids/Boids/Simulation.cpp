@@ -5,9 +5,9 @@ Simulation::Simulation(const sf::Vector2u& windowSize, const sf::Uint32& windowS
 	_windowStyle(windowStyle),
 	_windowTitle(windowTitle),
 	_updateTime(updateTime),
-	_sliderAlignementRadius({ (float)_windowSize.x - 460, 100 }, font, 0, 300, 300, "px", 2),
-	_sliderCohesionRadius({ (float)_windowSize.x - 460, 200 }, font, 0, 300, 300, "px", 2),
-	_sliderSeparationRadius({ (float)_windowSize.x - 460, 300 }, font, 0, 300, 300, "px", 2),
+	_sliderAlignementRadius({ (float)_windowSize.x - 460, 100 }, font, 0, 300, 300, "", 2),
+	_sliderCohesionRadius({ (float)_windowSize.x - 460, 200 }, font, 0, 300, 300, "", 2),
+	_sliderSeparationRadius({ (float)_windowSize.x - 460, 300 }, font, 0, 300, 300, "", 2),
 	_sliderAlignementWeight({ (float)_windowSize.x - 460, 400 }, font, 0, 20, 300, "", 2),
 	_sliderCohesionWeight({ (float)_windowSize.x - 460, 500 }, font, 0, 20, 300, "", 2),
 	_sliderSeparationWeight({ (float)_windowSize.x - 460, 600 }, font, 0, 20, 300, "", 2),
@@ -55,14 +55,25 @@ void Simulation::init()
 {
 	_world.create({ _windowSize.x - 540, _windowSize.y - 40 }, { 20, 20 }, World::Type::Mirrored);
 
-	for (size_t i = 0; i < 10; i++)
+	_sliderAlignementRadius.SetValue(80.f);
+	_sliderCohesionRadius.SetValue(100.f);
+	_sliderSeparationRadius.SetValue(10.f);
+
+	_sliderAlignementWeight.SetValue(10);
+	_sliderCohesionWeight.SetValue(1);
+	_sliderSeparationWeight.SetValue(10);
+
+	_sliderBoidSpeed.SetValue(4);
+
+	for (size_t i = 0; i < 1000; i++)
 	{
 		std::shared_ptr<Boid> boid = std::make_shared<Boid>(_population);
 
 		boid->setGeometry(5, 10);
 		boid->setRotation(rf::Random::getAngle());
 		boid->setSpeed(_sliderBoidSpeed.GetValue());
-		boid->setPosition({ rf::Random::getFloat((float)_world.getOffset().x, (float)_world.getOffset().x + (float)_world.getSize().x), rf::Random::getFloat((float)_world.getOffset().y, (float)_world.getOffset().y + (float)_world.getSize().y) });
+		sf::Vector2f randomPosition = { rf::Random::getFloat((float)_world.getOffset().x, (float)_world.getOffset().x + (float)_world.getSize().x), rf::Random::getFloat((float)_world.getOffset().y, (float)_world.getOffset().y + (float)_world.getSize().y) };
+		boid->setPosition(randomPosition);
 		boid->setVisionRadiuses(_sliderAlignementRadius.GetValue(), _sliderCohesionRadius.GetValue(), _sliderSeparationRadius.GetValue());
 		boid->setBehaviourWeights(_sliderAlignementWeight.GetValue(), _sliderCohesionWeight.GetValue(), _sliderSeparationWeight.GetValue());
 		boid->showVisionRepresentation(false);
@@ -71,7 +82,6 @@ void Simulation::init()
 	}
 
 	_world.init();
-
 	_population = _world.getBoids();
 }
 
