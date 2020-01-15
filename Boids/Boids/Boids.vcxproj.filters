@@ -11,6 +11,13 @@
     <ClInclude Include="World.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Boid.h" />
-    <ClInclude Include="Random.hpp" />
+    <ClInclude Include="rf\Random.hpp">
+      <Filter>rf</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="rf">
+      <UniqueIdentifier>{fa5488e8-13d3-4562-bffa-ae6b14eeada0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

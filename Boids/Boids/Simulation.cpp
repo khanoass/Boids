@@ -32,12 +32,14 @@ void Simulation::run()
 
 void Simulation::init()
 {
+	_world.create({ _windowSize.x - 40, _windowSize.y - 40 }, { 20, 20 }, World::Type::Mirrored);
+
 	for (size_t i = 0; i < 30; i++)
 	{
 		std::shared_ptr<Boid> boid = std::make_shared<Boid>();
 
 		boid->setGeometry(15, 30);
-		boid->setRotation(Random::nextFloat(0, 360));
+		boid->setRotation(rf::Random::getAngle());
 		boid->setSpeed(1);
 		boid->setPosition({ 600, 400 });
 		boid->setVisionRadius(80);
