@@ -1,5 +1,7 @@
-﻿  main.cpp
+﻿  Simulation.cpp
   Génération de code en cours
-  All 4 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  4 of 496 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Fin de la génération du code
   Boids.vcxproj -> C:\Users\raffelix\Desktop\Boids\Boids\x64\Release\Boids.exe

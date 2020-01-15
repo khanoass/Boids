@@ -5,6 +5,9 @@
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="Boid.cpp" />
+    <ClCompile Include="slider\WidgetSlider.cpp">
+      <Filter>slider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Simulation.h" />
@@ -14,10 +17,22 @@
     <ClInclude Include="rf\Random.hpp">
       <Filter>rf</Filter>
     </ClInclude>
+    <ClInclude Include="rf\VectorMaths.hpp">
+      <Filter>rf</Filter>
+    </ClInclude>
+    <ClInclude Include="slider\InterfaceAppearanceConstants.h">
+      <Filter>slider</Filter>
+    </ClInclude>
+    <ClInclude Include="slider\WidgetSlider.h">
+      <Filter>slider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rf">
       <UniqueIdentifier>{fa5488e8-13d3-4562-bffa-ae6b14eeada0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="slider">
+      <UniqueIdentifier>{d91522c7-6186-4e31-8417-27b2658a2478}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

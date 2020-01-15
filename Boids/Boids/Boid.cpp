@@ -1,47 +1,96 @@
 #include "Boid.h"
 
-Boid::Boid()
+Boid::Boid(std::vector<std::shared_ptr<Boid>>& popul) : _population(popul)
 {
-	_velocity = { 0, 0 };
+	_direction = { 0, 0 };
 	_position = { 0, 0 };
 	_width = 0;
 	_length = 0;
 	_rotation = 0;
 	_speed = 0;
-	_visionRadius = 0;
+	_separationRadius = 0;
+	_cohesionRadius = 0;
+	_alignementRadius = 0;
+	_alignementWeight = 1;
+	_separationWeight = 1;
+	_cohesionWeight = 1;
 
 	_showVisionRepresentation = false;
 }
 
 void Boid::init()
 {
-	setVelocity();
+	computeVelocity();
 
 	_triangle.setPrimitiveType(sf::Triangles);
 	_triangle.resize(3);
 
-	_triangle[0].color = sf::Color::White;
-	_triangle[1].color = sf::Color::White;
-	_triangle[2].color = sf::Color::White;
+	_triangle[0].color = sf::Color::Black;
+	_triangle[1].color = sf::Color::Black;
+	_triangle[2].color = sf::Color::Black;
 
-	setVerticesPosition();
+	computeVerticesPosition();
 
 	if (_showVisionRepresentation)
 	{
-		_visionRepresentation.setFillColor(sf::Color(0, 100, 255, 10));
-		_visionRepresentation.setRadius(_visionRadius);
-		_visionRepresentation.setOrigin(_visionRepresentation.getRadius(), _visionRepresentation.getRadius());
-		_visionRepresentation.setPosition(_position);
+		_alignementRepresentation.setFillColor(sf::Color(255, 0, 0, 20));
+		_alignementRepresentation.setOrigin(_alignementRepresentation.getRadius(), _alignementRepresentation.getRadius());
+		_alignementRepresentation.setPosition(_position);
+
+		_cohesionRepresentation.setFillColor(sf::Color(0, 255, 0, 20));
+		_cohesionRepresentation.setOrigin(_cohesionRepresentation.getRadius(), _cohesionRepresentation.getRadius());
+		_cohesionRepresentation.setPosition(_position);
+
+		_separationRepresentation.setFillColor(sf::Color(0, 0, 0, 20));
+		_separationRepresentation.setOrigin(_separationRepresentation.getRadius(), _separationRepresentation.getRadius());
+		_separationRepresentation.setPosition(_position);
+
+		_linesRepresentation.setPrimitiveType(sf::Lines);
 	}
 }
 
 void Boid::update()
 {
-	_position += _velocity;
-	setVerticesPosition();
+	_position += _direction * _speed;
 
 	if (_showVisionRepresentation)
-		_visionRepresentation.setPosition(_position);
+		_linesRepresentation.clear();
+
+	sf::Vector2f alignement = computeAlignement();
+	sf::Vector2f cohesion = computeCohesion();
+	sf::Vector2f separation = computeSeparation();
+
+	_direction += alignement * _alignementWeight;
+	_direction += cohesion * _cohesionWeight;
+	_direction += separation * _separationWeight;
+
+	rf::VectorMaths::Vector temp = rf::VectorMaths::normalize({ _direction.x, _direction.y });
+	_direction = { temp.x, temp.y };
+
+	computeVerticesPosition();
+
+	if (_showVisionRepresentation)
+	{
+		_alignementRepresentation.setPosition(_position);
+		_cohesionRepresentation.setPosition(_position);
+		_separationRepresentation.setPosition(_position);
+	}
+
+	for (auto& neighbor : _population)
+	{
+		if (neighbor.get() != this)
+		{
+			if (_showVisionRepresentation)
+			{
+				float distance = (neighbor->getPosition().x - _position.x)*(neighbor->getPosition().x - _position.x) + (neighbor->getPosition().y - _position.y)*(neighbor->getPosition().y - _position.y);
+				if (distance < _cohesionRadius * _cohesionRadius * 4)
+				{
+					_linesRepresentation.append({ neighbor->getPosition(), sf::Color::Red });
+					_linesRepresentation.append({ _position, sf::Color::Red });
+				}
+			}
+		}
+	}
 }
 
 void Boid::setGeometry(float width, float length)
@@ -65,9 +114,87 @@ void Boid::setPosition(const sf::Vector2f& position)
 	_position = position;
 }
 
-void Boid::setVisionRadius(float visionRadius)
+void Boid::setVisionRadiuses(float alignementRadius, float cohesionRadius, float separationRadius)
 {
-	_visionRadius = visionRadius;
+	_alignementRadius = alignementRadius;
+	_cohesionRadius = cohesionRadius;
+	_separationRadius = separationRadius;
+
+	_alignementRepresentation.setRadius(_alignementRadius);
+	_cohesionRepresentation.setRadius(_cohesionRadius);
+	_separationRepresentation.setRadius(_separationRadius);
+}
+
+void Boid::setBehaviourWeights(float alignementWeight, float cohesionWeight, float separationWeight)
+{
+	_alignementWeight = alignementWeight;
+	_cohesionWeight = cohesionWeight;
+	_separationWeight = separationWeight;
+}
+
+const sf::Vector2f& Boid::getPosition()
+{
+	return _position;
+}
+
+float Boid::getRotation()
+{
+	return _rotation;
+}
+
+float Boid::getSpeed()
+{
+	return _speed;
+}
+
+const sf::Vector2f& Boid::getVelocity()
+{
+	return _direction;
+}
+
+float Boid::getWidth()
+{
+	return _width;
+}
+
+float Boid::getLength()
+{
+	return _length;
+}
+
+float Boid::getAlignementRadius()
+{
+	return _alignementRadius;
+}
+
+float Boid::getCohesionRadius()
+{
+	return _cohesionRadius;
+}
+
+float Boid::getSeparationRadius()
+{
+	return _separationRadius;
+}
+
+float Boid::getAlignementWeight()
+{
+	return _alignementWeight;
+}
+
+float Boid::getCohesionWeight()
+{
+	return _cohesionWeight;
+}
+
+float Boid::getSeparationWeight()
+{
+	return _separationWeight;
+}
+
+void Boid::setPopulation(const std::vector<std::shared_ptr<Boid>>& population)
+{
+	_population = population;
 }
 
 void Boid::showVisionRepresentation(bool show)
@@ -80,18 +207,111 @@ void Boid::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(_triangle);
 	
 	if (_showVisionRepresentation)
-		target.draw(_visionRepresentation);
+	{
+		target.draw(_cohesionRepresentation);
+		target.draw(_alignementRepresentation);
+		target.draw(_separationRepresentation);
+		target.draw(_linesRepresentation);
+	}
 }
 
-void Boid::setVelocity()
+void Boid::computeVelocity()
 {
-	sf::Vector2f rotationUnitVec = { std::sin(_rotation), std::cos(_rotation) };
-	_velocity = _speed * rotationUnitVec;
+	_direction = { std::sin(_rotation), std::cos(_rotation) };
 }
 
-void Boid::setVerticesPosition()
+sf::Vector2f Boid::computeAlignement()
 {
-	double alpha = std::atan2(_velocity.y, _velocity.x);
+	sf::Vector2f alignementComputation;
+	int neighborsCount = 0;
+
+	for (auto& neighbor : _population)
+	{
+		if (neighbor.get() != this)
+		{
+			float distance = (neighbor->getPosition().x - _position.x)*(neighbor->getPosition().x - _position.x) + (neighbor->getPosition().y - _position.y)*(neighbor->getPosition().y - _position.y);
+			if (distance < _alignementRadius * _alignementRadius * 4)
+			{
+				alignementComputation += neighbor->getVelocity();
+				neighborsCount++;
+			}
+		}
+	}
+
+	if (neighborsCount > 0)
+	{
+		alignementComputation.x /= neighborsCount;
+		alignementComputation.y /= neighborsCount;
+		rf::VectorMaths::Vector temp = rf::VectorMaths::normalize({ alignementComputation.x, alignementComputation.y });
+		alignementComputation = { temp.x, temp.y };
+	}
+
+	return alignementComputation;
+}
+
+sf::Vector2f Boid::computeCohesion()
+{
+	sf::Vector2f cohesionComputation;
+	int neighborsCount = 0;
+
+	for (auto& neighbor : _population)
+	{
+		if (neighbor.get() != this)
+		{
+			float distance = (neighbor->getPosition().x - _position.x)*(neighbor->getPosition().x - _position.x) + (neighbor->getPosition().y - _position.y)*(neighbor->getPosition().y - _position.y);
+			if (distance < _cohesionRadius * _cohesionRadius * 4)
+			{
+				cohesionComputation += neighbor->getPosition();
+				neighborsCount++;
+			}
+		}
+	}
+
+	if (neighborsCount > 0)
+	{
+		cohesionComputation.x /= neighborsCount;
+		cohesionComputation.y /= neighborsCount;
+		cohesionComputation = cohesionComputation - _position;
+		rf::VectorMaths::Vector temp = rf::VectorMaths::normalize({ cohesionComputation.x, cohesionComputation.y });
+		cohesionComputation = { temp.x, temp.y };
+	}
+
+	return cohesionComputation;
+}
+
+sf::Vector2f Boid::computeSeparation()
+{
+	sf::Vector2f separationComputation;
+	int neighborsCount = 0;
+
+	for (auto& neighbor : _population)
+	{
+		if (neighbor.get() != this)
+		{
+			float distance = (neighbor->getPosition().x - _position.x)*(neighbor->getPosition().x - _position.x) + (neighbor->getPosition().y - _position.y)*(neighbor->getPosition().y - _position.y);
+			if (distance < _separationRadius * _separationRadius)
+			{
+				separationComputation += neighbor->getPosition() - _position;
+				neighborsCount++;
+			}
+		}
+	}
+
+	if (neighborsCount > 0)
+	{
+		separationComputation.x /= neighborsCount;
+		separationComputation.y /= neighborsCount;
+		rf::VectorMaths::Vector temp = rf::VectorMaths::normalize({ separationComputation.x, separationComputation.y });
+		separationComputation = { temp.x, temp.y };
+		separationComputation *= -1.f;
+	}
+
+	return separationComputation;
+}
+
+void Boid::computeVerticesPosition()
+{
+	double alpha = std::atan2(_direction.y, _direction.x);
 	double beta = 3.141592654 / 2 + alpha;
 
 	sf::Vector2f halfbase = { (float)(_width / 2 * std::cos(beta)), (float)(_width / 2 * std::sin(beta)) };

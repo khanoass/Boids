@@ -24,7 +24,7 @@ namespace rf
 			std::mt19937 gen(rd());
 			std::uniform_real_distribution<> distribution(min, max);
 
-			float rnd = distribution(gen);
+			float rnd = (float)distribution(gen);
 
 			return rnd;
 		}
@@ -46,7 +46,7 @@ namespace rf
 			std::mt19937 gen(rd());
 			std::uniform_real_distribution<> distribution(0, 360);
 
-			float rnd = distribution(gen);
+			float rnd = (float)distribution(gen);
 
 			return rnd;
 		}
