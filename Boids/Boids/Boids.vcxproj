@@ -121,28 +121,31 @@
       <AdditionalIncludeDirectories>..\..\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/ENTRY:"mainCRTStartup" %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Boid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Simulation.cpp" />
-    <ClCompile Include="slider\WidgetSlider.cpp" />
+    <ClCompile Include="widgets\WidgetSlider.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boid.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="rf\Random.hpp" />
     <ClInclude Include="rf\VectorMaths.hpp" />
     <ClInclude Include="Simulation.h" />
-    <ClInclude Include="slider\InterfaceAppearanceConstants.h" />
-    <ClInclude Include="slider\WidgetSlider.h" />
+    <ClInclude Include="widgets\InterfaceAppearanceConstants.h" />
+    <ClInclude Include="widgets\WidgetSlider.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -5,28 +5,28 @@ Simulation::Simulation(const sf::Vector2u& windowSize, const sf::Uint32& windowS
 	_windowStyle(windowStyle),
 	_windowTitle(windowTitle),
 	_updateTime(updateTime),
-	_sliderAlignementRadius({ (float)_windowSize.x - 460, 100 }, font, 0, 300, 300, "", 2),
-	_sliderCohesionRadius({ (float)_windowSize.x - 460, 200 }, font, 0, 300, 300, "", 2),
-	_sliderSeparationRadius({ (float)_windowSize.x - 460, 300 }, font, 0, 300, 300, "", 2),
-	_sliderAlignementWeight({ (float)_windowSize.x - 460, 400 }, font, 0, 20, 300, "", 2),
-	_sliderCohesionWeight({ (float)_windowSize.x - 460, 500 }, font, 0, 20, 300, "", 2),
-	_sliderSeparationWeight({ (float)_windowSize.x - 460, 600 }, font, 0, 20, 300, "", 2),
-	_sliderBoidSpeed({ (float)_windowSize.x - 460, 700 }, font, 0, 10, 300, "", 2),
-	_textAlignementRadius("Rayon de vision : alignement [px]", font, 15),
-	_textCohesionRadius("Rayon de vision : cohesion [px]", font, 15),
-	_textSeparationRadius("Rayon de vision : séparation [px]", font, 15),
-	_textAlignementWeight("Poids de la propriété : alignement [ratio]", font, 15),
-	_textCohesionWeight("Poids de la propriété : cohesion [ratio]", font, 15),
-	_textSeparationWeight("Poids de la propriété : séparation [ratio]", font, 15),
-	_textBoidSpeed("Vitesse d'un boid [px/frame]", font, 15)
+	_sliderAlignementRadius({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING }, font, 0, 300, FLT_SLIDERS_LENGTH, "", UINT_SLIDER_DECIMALS_COUNT),
+	_sliderCohesionRadius({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*2 }, font, 0, 300, FLT_SLIDERS_LENGTH, "", UINT_SLIDER_DECIMALS_COUNT),
+	_sliderSeparationRadius({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*3 }, font, 0, 300, FLT_SLIDERS_LENGTH, "", UINT_SLIDER_DECIMALS_COUNT),
+	_sliderAlignementWeight({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*4 }, font, 0, 20, FLT_SLIDERS_LENGTH, "", UINT_SLIDER_DECIMALS_COUNT),
+	_sliderCohesionWeight({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*5 }, font, 0, 20, FLT_SLIDERS_LENGTH, "", UINT_SLIDER_DECIMALS_COUNT),
+	_sliderSeparationWeight({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*6 }, font, 0, 20, FLT_SLIDERS_LENGTH, "", UINT_SLIDER_DECIMALS_COUNT),
+	_sliderBoidSpeed({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*7 }, font, 0, 10, FLT_SLIDERS_LENGTH, "", UINT_SLIDER_DECIMALS_COUNT),
+	_textAlignementRadius("Rayon de vision : alignement [px]", font, UINT_TEXT_CHARACTER_SIZE),
+	_textCohesionRadius("Rayon de vision : cohesion [px]", font, UINT_TEXT_CHARACTER_SIZE),
+	_textSeparationRadius("Rayon de vision : séparation [px]", font, UINT_TEXT_CHARACTER_SIZE),
+	_textAlignementWeight("Poids de la propriété : alignement [ratio]", font, UINT_TEXT_CHARACTER_SIZE),
+	_textCohesionWeight("Poids de la propriété : cohesion [ratio]", font, UINT_TEXT_CHARACTER_SIZE),
+	_textSeparationWeight("Poids de la propriété : séparation [ratio]", font, UINT_TEXT_CHARACTER_SIZE),
+	_textBoidSpeed("Vitesse d'un boid [px/frame]", font, UINT_TEXT_CHARACTER_SIZE)
 {
-	_textAlignementRadius.setPosition({ (float)_windowSize.x - 460, 60 });
-	_textCohesionRadius.setPosition({ (float)_windowSize.x - 460, 160 });
-	_textSeparationRadius.setPosition({ (float)_windowSize.x - 460, 260 });
-	_textAlignementWeight.setPosition({ (float)_windowSize.x - 460, 360 });
-	_textCohesionWeight.setPosition({ (float)_windowSize.x - 460, 460 });
-	_textSeparationWeight.setPosition({ (float)_windowSize.x - 460, 560 });
-	_textBoidSpeed.setPosition({ (float)_windowSize.x - 460, 660 });
+	_textAlignementRadius.setPosition({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING+ FLT_SLIDER_TEXT_OFFSET });
+	_textCohesionRadius.setPosition({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*2 + FLT_SLIDER_TEXT_OFFSET });
+	_textSeparationRadius.setPosition({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*3 + FLT_SLIDER_TEXT_OFFSET });
+	_textAlignementWeight.setPosition({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*4 + FLT_SLIDER_TEXT_OFFSET });
+	_textCohesionWeight.setPosition({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*5 + FLT_SLIDER_TEXT_OFFSET });
+	_textSeparationWeight.setPosition({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*6 + FLT_SLIDER_TEXT_OFFSET });
+	_textBoidSpeed.setPosition({ (float)_windowSize.x - FLT_WIDGETS_RIGHT, FLT_SLIDERS_SPACING*7 + FLT_SLIDER_TEXT_OFFSET });
 }
 
 void Simulation::run()
@@ -44,7 +44,7 @@ void Simulation::run()
 			_updateClock.restart();
 			update();
 
-			_win.clear();
+			_win.clear(sf::Color(60, 60, 60));
 			render();
 			_win.display();
 		}
@@ -58,16 +58,15 @@ void Simulation::init()
 	_sliderAlignementRadius.SetValue(80.f);
 	_sliderCohesionRadius.SetValue(100.f);
 	_sliderSeparationRadius.SetValue(10.f);
-
 	_sliderAlignementWeight.SetValue(10);
 	_sliderCohesionWeight.SetValue(1);
 	_sliderSeparationWeight.SetValue(10);
 
 	_sliderBoidSpeed.SetValue(4);
 
-	for (size_t i = 0; i < 1000; i++)
+	for (size_t i = 0; i < 500; i++)
 	{
-		std::shared_ptr<Boid> boid = std::make_shared<Boid>(_population);
+		std::shared_ptr<Boid> boid = std::make_shared<Boid>(_population, _obstacles);
 
 		boid->setGeometry(5, 10);
 		boid->setRotation(rf::Random::getAngle());
@@ -78,11 +77,11 @@ void Simulation::init()
 		boid->setBehaviourWeights(_sliderAlignementWeight.GetValue(), _sliderCohesionWeight.GetValue(), _sliderSeparationWeight.GetValue());
 		boid->showVisionRepresentation(false);
 
+		_population.push_back(boid);
 		_world.addBoid(boid);
 	}
 
 	_world.init();
-	_population = _world.getBoids();
 }
 
 void Simulation::update()
@@ -129,6 +128,17 @@ void Simulation::update()
 			boid->setSpeed(_sliderBoidSpeed.GetValue());
 	}
 
+	if (_inserting)
+	{
+		_currentObstacle = std::make_shared<Obstacle>();
+		sf::Vector2f pos = sf::Vector2f(sf::Mouse::getPosition(_win));
+		float radius = std::sqrt((pos.x - _initialPosition.x)*(pos.x - _initialPosition.x) + (pos.y - _initialPosition.y)*(pos.y - _initialPosition.y));
+		_currentObstacle->setRadius(radius / 2);
+		_currentObstacle->setPosition(pos);
+		_currentObstacle->setColor(sf::Color::Red);
+		_currentObstacle->init();
+	}
+
 	_world.update();
 }
 
@@ -143,12 +153,40 @@ void Simulation::updateEvents()
 		if (_event.key.code == sf::Keyboard::Escape)
 			_win.close();
 		break;
+	case sf::Event::MouseButtonPressed:
+		if (_event.mouseButton.button == sf::Mouse::Left)
+		{
+			if (_inserting)
+			{
+				_inserting = false;
+				_currentObstacle->setColor(sf::Color::Black);
+				_currentObstacle->init();
+				_obstacles.push_back(_currentObstacle);
+				_world.addEntity(_currentObstacle);
+			}
+			else
+			{
+				sf::Vector2i pos = sf::Mouse::getPosition(_win);
+				_inserting = pos.x > _world.getOffset().x && pos.x < _world.getOffset().x + _world.getSize().x && pos.y > _world.getOffset().y && pos.y < _world.getOffset().y + _world.getSize().y;
+				if (_inserting)
+					_initialPosition = sf::Vector2f(pos);
+			}
+		}
+		else if (_event.mouseButton.button == sf::Mouse::Right)
+		{
+			if (_inserting)
+				_inserting = false;
+		}
+		break;
 	}
 }
 
 void Simulation::render()
 {
 	_win.draw(_world);
+
+	if (_inserting)
+		_win.draw(*_currentObstacle);
 
 	_win.draw(_sliderAlignementRadius);
 	_win.draw(_sliderCohesionRadius);

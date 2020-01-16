@@ -36,11 +36,6 @@ const sf::Vector2i& World::getOffset()
 	return _offset;
 }
 
-std::vector<std::shared_ptr<Boid>>& World::getBoids()
-{
-	return _boids;
-}
-
 void World::init()
 {
 	_worldPanel.setPrimitiveType(sf::Quads);

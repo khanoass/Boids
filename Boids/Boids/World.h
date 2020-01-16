@@ -17,8 +17,6 @@ public:
 	const sf::Vector2u& getSize();
 	const sf::Vector2i& getOffset();
 
-	std::vector<std::shared_ptr<Boid>>& getBoids();
-
 	void init();
 	void update();
 

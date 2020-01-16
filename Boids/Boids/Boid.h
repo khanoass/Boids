@@ -2,12 +2,13 @@
 
 #include "Entity.h"
 #include "rf/VectorMaths.hpp"
+#include "Obstacle.h"
 #include <iostream>
 
 class Boid : public Entity
 {
 public:
-	Boid(std::vector<std::shared_ptr<Boid>>& popul);
+	Boid(std::vector<std::shared_ptr<Boid>>& popul, std::vector<std::shared_ptr<Obstacle>>& obst);
 
 	virtual void init();
 	virtual void update();
@@ -55,6 +56,7 @@ private:
 	float _separationWeight;
 
 	std::vector<std::shared_ptr<Boid>>& _population;
+	std::vector<std::shared_ptr<Obstacle>>& _obstacles;
 
 	bool _showVisionRepresentation;
 
@@ -67,6 +69,8 @@ private:
 	sf::Vector2f computeAlignement();
 	sf::Vector2f computeCohesion();
 	sf::Vector2f computeSeparation();
+
+	sf::Vector2f computeObstacleBlocking();
 
 	void computeVerticesPosition();
 };

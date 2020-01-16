@@ -1,6 +1,8 @@
 #include "Boid.h"
 
-Boid::Boid(std::vector<std::shared_ptr<Boid>>& popul) : _population(popul)
+Boid::Boid(std::vector<std::shared_ptr<Boid>>& popul, std::vector<std::shared_ptr<Obstacle>>& obst) : 
+	_population(popul),
+	_obstacles(obst)
 {
 	_direction = { 0, 0 };
 	_position = { 0, 0 };
@@ -25,9 +27,9 @@ void Boid::init()
 	_triangle.setPrimitiveType(sf::Triangles);
 	_triangle.resize(3);
 
-	_triangle[0].color = sf::Color::Black;
-	_triangle[1].color = sf::Color::Black;
-	_triangle[2].color = sf::Color::Black;
+	_triangle[0].color = sf::Color(0, 50, 255, 100);
+	_triangle[1].color = sf::Color(0, 50, 255, 100);
+	_triangle[2].color = sf::Color(0, 50, 255, 100);
 
 	computeVerticesPosition();
 
@@ -60,9 +62,13 @@ void Boid::update()
 	sf::Vector2f cohesion = computeCohesion();
 	sf::Vector2f separation = computeSeparation();
 
+	sf::Vector2f blocking = computeObstacleBlocking();
+
 	_direction += alignement * _alignementWeight;
 	_direction += cohesion * _cohesionWeight;
 	_direction += separation * _separationWeight;
+
+	_direction += blocking * 100.f;
 
 	rf::VectorMaths::Vector temp = rf::VectorMaths::normalize({ _direction.x, _direction.y });
 	_direction = { temp.x, temp.y };
@@ -76,11 +82,11 @@ void Boid::update()
 		_separationRepresentation.setPosition(_position);
 	}
 
-	for (auto& neighbor : _population)
+	if (_showVisionRepresentation)
 	{
-		if (neighbor.get() != this)
+		for (auto& neighbor : _population)
 		{
-			if (_showVisionRepresentation)
+			if (neighbor.get() != this)
 			{
 				float distance = (neighbor->getPosition().x - _position.x)*(neighbor->getPosition().x - _position.x) + (neighbor->getPosition().y - _position.y)*(neighbor->getPosition().y - _position.y);
 				if (distance < _cohesionRadius * _cohesionRadius * 4)
@@ -123,6 +129,10 @@ void Boid::setVisionRadiuses(float alignementRadius, float cohesionRadius, float
 	_alignementRepresentation.setRadius(_alignementRadius);
 	_cohesionRepresentation.setRadius(_cohesionRadius);
 	_separationRepresentation.setRadius(_separationRadius);
+
+	_alignementRepresentation.setOrigin(_alignementRepresentation.getRadius(), _alignementRepresentation.getRadius());
+	_cohesionRepresentation.setOrigin(_cohesionRepresentation.getRadius(), _cohesionRepresentation.getRadius());
+	_separationRepresentation.setOrigin(_separationRepresentation.getRadius(), _separationRepresentation.getRadius());
 }
 
 void Boid::setBehaviourWeights(float alignementWeight, float cohesionWeight, float separationWeight)
@@ -307,6 +317,33 @@ sf::Vector2f Boid::computeSeparation()
 	}
 
 	return separationComputation;
+}
+
+sf::Vector2f Boid::computeObstacleBlocking()
+{
+	sf::Vector2f blockingComputation;
+	int obstacleCount = 0;
+
+	for (auto& obstacle : _obstacles)
+	{
+		float distance = (obstacle->getPosition().x - _position.x)*(obstacle->getPosition().x - _position.x) + (obstacle->getPosition().y - _position.y)*(obstacle->getPosition().y - _position.y);
+		if (distance < (_separationRadius + obstacle->getRadius())*(_separationRadius + obstacle->getRadius()))
+		{
+			blockingComputation += obstacle->getPosition() - _position;
+			obstacleCount++;
+		}
+	}
+
+	if (obstacleCount > 0)
+	{
+		blockingComputation.x /= obstacleCount;
+		blockingComputation.y /= obstacleCount;
+		rf::VectorMaths::Vector temp = rf::VectorMaths::normalize({ blockingComputation.x, blockingComputation.y });
+		blockingComputation = { temp.x, temp.y };
+		blockingComputation *= -1.f;
+	}
+
+	return blockingComputation;
 }
 
 void Boid::computeVerticesPosition()

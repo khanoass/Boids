@@ -3,7 +3,8 @@
 #include "World.h"
 #include "Boid.h"
 #include "rf/Random.hpp"
-#include "slider/WidgetSlider.h"
+#include "widgets/WidgetSlider.h"
+#include "Obstacle.h"
 
 class Simulation
 {
@@ -25,6 +26,7 @@ private:
 	World _world;
 
 	std::vector<std::shared_ptr<Boid>> _population;
+	std::vector<std::shared_ptr<Obstacle>> _obstacles;
 
 	WidgetSlider _sliderAlignementRadius;
 	WidgetSlider _sliderCohesionRadius;
@@ -45,6 +47,10 @@ private:
 	sf::Text _textSeparationWeight;
 
 	sf::Text _textBoidSpeed;
+
+	bool _inserting = false;
+	std::shared_ptr<Obstacle> _currentObstacle;
+	sf::Vector2f _initialPosition;
 
 	void init();
 	void update();

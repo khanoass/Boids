@@ -5,9 +5,10 @@
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="Boid.cpp" />
-    <ClCompile Include="slider\WidgetSlider.cpp">
-      <Filter>slider</Filter>
+    <ClCompile Include="widgets\WidgetSlider.cpp">
+      <Filter>widgets</Filter>
     </ClCompile>
+    <ClCompile Include="Obstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Simulation.h" />
@@ -20,18 +21,19 @@
     <ClInclude Include="rf\VectorMaths.hpp">
       <Filter>rf</Filter>
     </ClInclude>
-    <ClInclude Include="slider\InterfaceAppearanceConstants.h">
-      <Filter>slider</Filter>
+    <ClInclude Include="widgets\InterfaceAppearanceConstants.h">
+      <Filter>widgets</Filter>
     </ClInclude>
-    <ClInclude Include="slider\WidgetSlider.h">
-      <Filter>slider</Filter>
+    <ClInclude Include="widgets\WidgetSlider.h">
+      <Filter>widgets</Filter>
     </ClInclude>
+    <ClInclude Include="Obstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="rf">
       <UniqueIdentifier>{fa5488e8-13d3-4562-bffa-ae6b14eeada0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="slider">
+    <Filter Include="widgets">
       <UniqueIdentifier>{d91522c7-6186-4e31-8417-27b2658a2478}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
