@@ -299,7 +299,7 @@ sf::Vector2f Boid::computeSeparation()
 		if (neighbor.get() != this)
 		{
 			float distance = (neighbor->getPosition().x - _position.x)*(neighbor->getPosition().x - _position.x) + (neighbor->getPosition().y - _position.y)*(neighbor->getPosition().y - _position.y);
-			if (distance < _separationRadius * _separationRadius)
+			if (distance < _separationRadius * _separationRadius * 4)
 			{
 				separationComputation += neighbor->getPosition() - _position;
 				neighborsCount++;

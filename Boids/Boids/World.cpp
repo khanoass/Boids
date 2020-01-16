@@ -36,6 +36,20 @@ const sf::Vector2i& World::getOffset()
 	return _offset;
 }
 
+int World::removeEntity(const std::shared_ptr<Entity>& entity)
+{
+	int out = -1;
+	for (size_t i = 0; i < _entities.size(); i++)
+	{
+		if (_entities[i].get() == entity.get())
+		{
+			_entities.erase(_entities.begin() + i);
+			out = i;
+		}
+	}
+	return out;
+}
+
 void World::init()
 {
 	_worldPanel.setPrimitiveType(sf::Quads);

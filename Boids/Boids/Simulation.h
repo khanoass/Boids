@@ -25,6 +25,8 @@ private:
 
 	World _world;
 
+	sf::VertexArray _mask;
+
 	std::vector<std::shared_ptr<Boid>> _population;
 	std::vector<std::shared_ptr<Obstacle>> _obstacles;
 
@@ -49,8 +51,11 @@ private:
 	sf::Text _textBoidSpeed;
 
 	bool _inserting = false;
+	bool _erasing = false;
 	std::shared_ptr<Obstacle> _currentObstacle;
 	sf::Vector2f _initialPosition;
+
+	std::shared_ptr<Obstacle> findCurrentObstacle(const sf::Vector2i& mousePosition);
 
 	void init();
 	void update();

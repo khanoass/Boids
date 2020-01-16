@@ -28,9 +28,10 @@ void Obstacle::setPosition(const sf::Vector2f& position)
 void Obstacle::setRadius(float radius)
 {
 	_radius = radius;
+	_shape.setOrigin(_radius, _radius);
 }
 
-void Obstacle::setColor(const sf::Color & color)
+void Obstacle::setColor(const sf::Color& color)
 {
 	_color = color;
 }

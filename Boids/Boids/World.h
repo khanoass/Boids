@@ -17,6 +17,8 @@ public:
 	const sf::Vector2u& getSize();
 	const sf::Vector2i& getOffset();
 
+	int removeEntity(const std::shared_ptr<Entity>& entity);
+
 	void init();
 	void update();
 

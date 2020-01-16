@@ -20,7 +20,8 @@ const unsigned int UINT_TEXT_CHARACTER_SIZE = 15;
 // Sliders
 const unsigned int UINT_SLIDER_DECIMALS_COUNT = 2;
 const float FLT_SLIDERS_LENGTH = 340.f;
-const float FLT_SLIDERS_SPACING = 110.f;
+const float FLT_SLIDERS_SPACING = 120.f;
+const float FLT_SLIDERS_OFFSET_Y = 90.f;
 const float FLT_SLIDER_TEXT_OFFSET = -40.f;
 
 // Dimensions des sliders
