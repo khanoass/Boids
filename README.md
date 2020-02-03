@@ -1,5 +1,5 @@
 # Boids
-A C++ simulation about bird like objects
+A C++ simulation about bird like objects.
 
 ## Overview
 It is made in C++/SFML 2.5.1.
