@@ -24,6 +24,6 @@ You can add obstacles by left-clicking in the world, and edit them right-clickin
 ## Sidenote
 This implementation is totally homemade and some bugs or weird behaviours are to be expected. Anyway, I had a fun time testing with these objects.
 
-Also, all the sources are totally free to use, no need to mention or credit anything.
+Also, all the sources are totally free to use, no need to mention or credit anything *except the use of the SFML, if used, as mentioned on their website @ https://www.sfml-dev.org/license.php*. 
 
 Have fun!
