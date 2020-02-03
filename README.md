@@ -10,9 +10,7 @@ This is my attempt at implementing "Boids", or flocks of bird-like objects.
 A boid's direction will depend on three main factors: alignement, cohesion and separation.
 
 Alignement: the boid will try to be aligned on the same angle as its neigbours.
-
 Cohesion: the boid will try to be in the center of mass of its neighbours.
-
 Separation the boid will try not to bump into its neighbours.
 
 Some sliders are there to adjust these values, as well as their vision radiuses, one for each factor. It is to be noted that their description labels are in french though, sorry about that.
