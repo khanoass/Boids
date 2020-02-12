@@ -11,7 +11,7 @@ A boid's direction will depend on three main factors: alignement, cohesion and s
 
 Alignement: the boid will try to be aligned on the same angle as its neigbours.
 Cohesion: the boid will try to be in the center of mass of its neighbours.
-Separation the boid will try not to bump into its neighbours.
+Separation: the boid will try not to bump into its neighbours.
 
 Some sliders are there to adjust these values, as well as their vision radiuses, one for each factor. It is to be noted that their description labels are in french though, sorry about that.
 
@@ -24,6 +24,6 @@ You can add obstacles by left-clicking in the world, and edit them right-clickin
 ## Sidenote
 This implementation is totally homemade and some bugs or weird behaviours are to be expected. Anyway, I had a fun time testing with these objects.
 
-Also, all the sources are totally free to use, no need to mention or credit anything *except the use of the SFML, if used, as mentioned on their website @ https://www.sfml-dev.org/license.php*. 
+Also, all the sources are totally free to use, no need to mention or credit anything *although mentioning the use of the SFML, if used, would be greatly appreciated, as mentioned on their website @ https://www.sfml-dev.org/license.php*. 
 
 Have fun!
